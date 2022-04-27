@@ -1,0 +1,29 @@
+.input > input {
+    width: 400px;
+    max-width: calc(100vw - 20px);
+    border: none;
+    border-bottom: 1px solid lightgray;
+    background: none;
+    font-size: 64px;
+    text-align: center;
+    outline: none;
+}
+
+.users {
+    margin-bottom: 100px;
+}
+
+.me, .teammate {
+    min-width: 150px;
+    border: 1px solid lightgray;
+    border-bottom: none;
+    font-size: 20px;
+}
+
+.me {
+    border-right: 1px solid lightgray;
+}
+
+.teammate {
+    border-left: none;
+}

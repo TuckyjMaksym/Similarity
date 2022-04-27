@@ -1,0 +1,33 @@
+* {
+    font-family: Oswald, sans-serif;
+    letter-spacing: .4px;
+}
+
+p {
+    margin: 0;
+}
+
+.error {
+    color: var(--bs-red);
+    font-weight: 600;
+}
+
+.blink_underscore {
+    min-width: 12px;
+    min-height: 3px;
+    max-height: 3px;
+    background-color: black;
+    animation: blink .9s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
