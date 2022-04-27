@@ -7,7 +7,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "server": "node-dev server/index.ts",
     "build": "cross-env NODE_ENV=production webpack",
-    "start": "serve dist"
+    "serve": "serve build",
+    "start": "npm run build && run-p server serve"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "express": "^4.17.1",
     "html-webpack-plugin": "^5.5.0",
     "node-dev": "^7.4.3",
+    "npm-run-all": "^4.1.5",
     "serve": "^13.0.2",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.2.5",
