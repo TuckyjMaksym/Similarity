@@ -8,9 +8,9 @@
     "server": "del db.json && echo {} > db.json && cd server && npm start",
     "build:app": "webpack",
     "build:server": "cd server && npm run build",
-    "build:all": "npx cross-env NODE_ENV=production npx run-p build:app build:server",
+    "build:all": "cross-env NODE_ENV=production run-p build:app build:server",
     "start:dev": "run-p server dev",
-    "start": "npm run build:all && npm run server"
+    "start": "run-s build:all server"
   },
   "author": "",
   "license": "ISC",
