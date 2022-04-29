@@ -5,19 +5,23 @@ const webpack = require('webpack');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const dotenv = require('dotenv');
 
-const dotEnv = dotenv.config({ path: resolve(__dirname, '../.env') }).parsed;
-const processEnv = {};
+const isProd = process.env.NODE_ENV === 'production';
+const definitions = {};
 
-Object.keys(dotEnv).forEach((key) => {
-    processEnv[`process.env.${key}`] = dotEnv[key];
-});
+if (isProd) {
+    const parsedDotEnv = dotenv.config({ path: resolve(__dirname, '../.env') }).parsed;
+
+    Object.keys(parsedDotEnv).forEach((key) => {
+        definitions[`process.env.${key}`] = parsedDotEnv[key];
+    });
+}
 
 const config = {
     mode: process.env.NODE_ENV,
     target: 'node',
     entry: './index.ts',
     output: {
-        path: resolve(__dirname, './build'),
+        path: resolve(__dirname),
         filename: 'server.js',
     },
     resolve: {
@@ -33,7 +37,7 @@ const config = {
         ],
     },
     plugins: [
-        new webpack.DefinePlugin(processEnv),
+        new webpack.DefinePlugin(definitions),
     ]
 };
 

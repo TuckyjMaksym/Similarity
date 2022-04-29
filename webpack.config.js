@@ -12,7 +12,7 @@ const config = {
         index: './src/index.tsx',
     },
     output: {
-        path: resolve(__dirname, 'server/build/client'),
+        path: resolve(__dirname, 'server/client'),
         filename: 'index.js',
     },
     resolve: {
