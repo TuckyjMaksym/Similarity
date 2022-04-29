@@ -12,8 +12,8 @@ const config = {
         index: './src/index.tsx',
     },
     output: {
-        path: resolve(__dirname, 'build'),
-        filename: 'bundle.js',
+        path: resolve(__dirname, 'server/build/client'),
+        filename: 'index.js',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],

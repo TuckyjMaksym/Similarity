@@ -13,9 +13,8 @@ import { TUser } from '../types/user';
 import { VictoryModal } from './VictoryModal';
 
 export function App() {
-    const [app, setApp] = useRecoilState(sApp);
+    const [, setApp] = useRecoilState(sApp);
     const [user, setUser] = useRecoilState(sUser);
-    console.log("🚀 ~ file: App.tsx ~ line 17 ~ App ~ user", user)
     const [room, setRoom] = useRecoilState(sRoom);
 
     React.useEffect(() => {

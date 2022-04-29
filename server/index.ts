@@ -19,7 +19,9 @@ const ioConfig: Partial<ServerOptions> = {
     },
 };
 const io = new Server(httpServer, ioConfig);
-const db = new JSONdb('server/db.json');
+const db = new JSONdb('db.json');
+
+app.use(express.static(__dirname + '/public'));
 
 const getUser = (id: string): TUser => db.get(id);
 const setUser = (id: string, data: TUser) => db.set(id, data);
@@ -27,7 +29,7 @@ const getRoom = (id: string): TRoom => db.get(id);
 const setRoom = (id: string, data: TRoom) => db.set(id, data);
 
 io.on('connection', client => {
-    let roomId = null;
+    let roomId = '';
 
     setUser(client.id, { username: "" })
     console.log(client.id, 'Connected', new Date().toLocaleTimeString())
@@ -68,8 +70,8 @@ io.on('connection', client => {
     client.on(events.SET_USERNAME, (username: string) => {
         const roomData = getRoom(roomId);
         const isPlayer2 = roomData.player2?.id === client.id;
-        const otherPlayerId = isPlayer2 ? roomData.player2.id : roomData.player1.id; 
-        let isUsernameExists = otherPlayerId && db.has(otherPlayerId) && getUser(otherPlayerId).username === username;
+        const otherPlayerId = isPlayer2 ? roomData.player2?.id : roomData.player1.id; 
+        const isUsernameExists = otherPlayerId && db.has(otherPlayerId) && getUser(otherPlayerId).username === username;
         
         if (!isUsernameExists) {
             console.log('Username doesn\'t exist, adding new user with username:', username);
@@ -89,12 +91,12 @@ io.on('connection', client => {
         const room = getRoom(roomId);
         const isPlayer2 = room.player2?.id === client.id;
 
-        if (isPlayer2) {
+        if (isPlayer2 && room.player2) {
             room.player2.submittedWord = word;
         } else if (!isPlayer2) {
             room.player1.submittedWord = word;
         }
-        if (room.player1.submittedWord && room.player2.submittedWord) {
+        if (room.player1.submittedWord && room.player2?.submittedWord) {
             room.player1.lastWord = room.player1.submittedWord;
             room.player2.lastWord = room.player2.submittedWord;
             room.player1.submittedWord = '';
@@ -105,7 +107,7 @@ io.on('connection', client => {
             }
 
             io.sockets.to(roomId).emit(events.REVEAL_WORDS, words);
-        } else if (!room.player1.submittedWord || !room.player2.submittedWord) {
+        } else if (!room.player1.submittedWord || !room.player2?.submittedWord) {
             io.sockets.to(roomId).emit(events.WORD_SUBMITTED, client.id, word);
         }
         setRoom(roomId, room);
@@ -115,7 +117,7 @@ io.on('connection', client => {
         const room = getRoom(roomId);
 
         room.player1 = { id: room.player1.id, lastWord: '', submittedWord: '' };
-        room.player2 = { id: room.player2.id, lastWord: '', submittedWord: '' };
+        room.player2 = { id: room.player2!.id, lastWord: '', submittedWord: '' };
     })
 
     client.on('disconnect', () => {
@@ -124,7 +126,7 @@ io.on('connection', client => {
         db.delete(client.id);
 
         if (db.has(roomId)) {
-            let room = getRoom(roomId);
+            const room = getRoom(roomId);
             const isPlayer2 = room.player2?.id === client.id;
 
             // If player 2, remove "player2" from room
@@ -138,7 +140,7 @@ io.on('connection', client => {
                 console.log('User is Player 1, removing him from lobby and setting Player 2 as Player 1');
                 // If player 1, remove "player1" and set "player2" as "player1"
                 const { player2, player1, ...roomData } = room;
-                const updatedRoom = { ...roomData, player1: player2 };
+                const updatedRoom = { ...roomData, player1: player2! };
 
                 console.log("🚀 ~ file: index.ts ~ line 121 ~ client.on ~ updatedRoom", updatedRoom)
                 setRoom(roomId, updatedRoom);
@@ -150,4 +152,4 @@ io.on('connection', client => {
 
 httpServer.listen(process.env.SERVER_PORT);
 
-console.log("Listening on port:", process.env.SERVER_PORT)
+console.log('Listening on port:', process.env.SERVER_PORT)
