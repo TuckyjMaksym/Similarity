@@ -4,13 +4,15 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
+    "gcloud:deploy": "gcloud app deploy",
+    "deploy": "run-s build:all gcloud:deploy",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "server": "del db.json && echo {} > db.json && cd server && npm start",
     "build:app": "webpack",
     "build:server": "cd server && npm run build",
     "build:all": "cross-env NODE_ENV=production run-p build:app build:server",
     "start:dev": "run-p server dev",
-    "start": "node server/index.js"
+    "start": "node server/server.js"
   },
   "author": "",
   "license": "ISC",
