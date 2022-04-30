@@ -19,7 +19,7 @@ if (isProd) {
 const config = {
     mode: process.env.NODE_ENV,
     target: 'node',
-    entry: './index.ts',
+    entry: resolve(__dirname, './index.ts'),
     output: {
         path: resolve(__dirname),
         filename: 'server.js',
@@ -32,7 +32,8 @@ const config = {
         rules: [
             {
                 test: /\.ts$/,
-                use: 'ts-loader'
+                use: 'ts-loader',
+                exclude: /node_modules/,
             },
         ],
     },

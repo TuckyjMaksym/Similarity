@@ -7,12 +7,12 @@
     "gcloud:deploy": "gcloud app deploy",
     "deploy": "run-s build:all gcloud:deploy",
     "build:app": "webpack",
-    "build:server": "cross-env NODE_ENV=production cd server && webpack",
+    "build:server": "cd server && npm run build",
     "build:all": "cross-env NODE_ENV=production run-p build:app build:server",
     "start:app": "webpack-dev-server",
-    "start:server": "del db.json && echo {} > db.json && node-dev server/index.ts",
+    "start:server": "cd server && npm run start:dev",
     "start:dev": "run-p start:server start:app",
-    "start": "node server/server.js"
+    "start": "cd server && npm i && npm start"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +24,6 @@
     "@babel/preset-typescript": "^7.16.0",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
-    "@types/shortid": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "babel-loader": "^8.2.3",
@@ -34,31 +33,24 @@
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
     "html-webpack-plugin": "^5.5.0",
-    "node-dev": "^7.4.3",
     "npm-run-all": "^4.1.5",
     "serve": "^13.0.2",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.2.5",
     "ts-loader": "^9.2.9",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.4.4",
+    "typescript": "^4.6.3",
     "webpack": "^5.64.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
     "effector": "^22.1.2",
     "effector-react": "^22.0.4",
-    "express": "^4.18.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.3.0",
     "react-dom": "^17.0.2",
     "recoil": "^0.7.2",
-    "shortid": "^2.2.16",
-    "simple-json-db": "^2.0.0",
-    "socket.io": "^4.5.0",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.5.0"
   }
 }

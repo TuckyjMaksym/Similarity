@@ -8,7 +8,9 @@ import JSONdb from 'simple-json-db';
 import { events } from '../common/events';
 import { TRoom, TUser} from './types';
 
-if (process.env.NODE_ENV !== 'production') {
+const isProd = process.env.NODE_ENV === 'production';
+
+if (!isProd) {
     dotenv.config({ path: '../.env'});
 }
 
@@ -20,12 +22,14 @@ app.get('/', async (req, res) => {
 });
 
 const httpServer = createServer(app);
-const ioConfig: Partial<ServerOptions> = {
-    cors: {
+const ioConfig: Partial<ServerOptions> = {};
+
+if (!isProd) {
+    ioConfig.cors = {
         origin: `http://localhost:${process.env.CLIENT_PORT}`,
         methods: ['GET', 'POST'],
-    },
-};
+    };
+}
 const io = new Server(httpServer, ioConfig);
 const db = new JSONdb('db.json');
 

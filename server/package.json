@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "clear:db": "del db.json && echo {} > db.json",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start:dev": "npm run clear:db && node-dev index.ts",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "shortid": "^2.2.16",
+    "simple-json-db": "^2.0.0",
+    "socket.io": "^4.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/shortid": "^0.0.29",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "node-dev": "^7.4.3",
+    "terser-webpack-plugin": "^5.3.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

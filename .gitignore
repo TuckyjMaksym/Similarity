@@ -1,4 +1,4 @@
 node_modules
-server/client/**/*
+server/client
 server/server.js
-db.json
+server/db.json
